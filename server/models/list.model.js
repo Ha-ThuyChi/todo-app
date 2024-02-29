@@ -5,22 +5,17 @@ module.exports = (sequelize, Sequelize) => {
         name: {
             type: Sequelize.STRING,
         },
-        type: {
+        userId: {
             type: Sequelize.STRING,
-        },
-        ownerId: {
-            type: Sequelize.INTEGER,
-            allowNull: false,
             references: {
-                model: User, 
-                key: 'id', 
-            },
+                model: User,
+                key: "id",
+            }
         }
     },
     {
         tableName: "lists", 
-        timeStamps: true,
+        timestamps: true,
     });
-  
     return List;
 }

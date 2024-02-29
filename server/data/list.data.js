@@ -3,7 +3,18 @@ module.exports = {
         List.create({
             name: "Journal",
             type: "Journal",
-            ownerId: 1
-        })
+            userId: 1,
+        });
+        List.create({
+            name: "Journal",
+            type: "Journal",
+            userId: 2,
+        });
+        List.create({
+            name: "Journal",
+            type: "Journal",
+            userId: 3,
+        });
+
     }
 }
