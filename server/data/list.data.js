@@ -15,6 +15,5 @@ module.exports = {
             type: "Journal",
             userId: 3,
         });
-
     }
 }

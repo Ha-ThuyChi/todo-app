@@ -9,12 +9,11 @@ module.exports = (sequelize, Sequelize) => {
         email: {
             type: Sequelize.STRING,
             unique: true,
-            validate: {
-                isEmail: true, 
-            },
+            allowNull: false,
         },
         password: {
             type: Sequelize.STRING,
+            allowNull: false,
         },
 
     },
@@ -22,5 +21,11 @@ module.exports = (sequelize, Sequelize) => {
         tableName: "users", 
         timeStamps: true,
     });
+    User.associate = (models) => {
+        User.hasMany(models.List, {foreignKey: "userId"})
+    }
+    User.associate = (models) => {
+        User.hasOne(models.Task, {foreignKey: "assigneeId"})
+    }
     return User;
 }

@@ -4,12 +4,22 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { Homepage } from './pages/Homepage';
+import { SignUp } from './pages/SignUp';
+import { SignIn } from './pages/SignIn';
 
 
 const router = new createBrowserRouter([
   {
     path:"/",
     element: <Homepage/>
+  },
+  {
+    path: "/sign-up",
+    element: <SignUp/>
+  },
+  {
+    path: "/sign-in",
+    element: <SignIn/>
   }
 ])
 const root = ReactDOM.createRoot(document.getElementById('root'));

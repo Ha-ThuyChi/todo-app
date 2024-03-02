@@ -18,13 +18,19 @@ module.exports = (sequelize, Sequelize) => {
         priorityLevel: {
             type: Sequelize.ENUM("low", "medium", "high"),
             allowNull: true,
-        }
+        },
 
     },
     {
         tableName: "tasks", 
         timeStamps: true,
     });
+    Task.associate = (models) => {
+        Task.belongsTo(models.User, { foreignKey: 'assigneeId' });
+    };
+    Task.associate = (models) => {
+        Task.belongsTo(models.List, { foreignKey: 'listId' });
+    };
   
     return Task;
 }

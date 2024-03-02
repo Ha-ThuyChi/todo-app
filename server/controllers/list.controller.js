@@ -4,7 +4,7 @@ const List = db.list;
 exports.viewList = (req, res) => {
     List.findAll({
         where: {
-            ownerId: req.body.ownerId,
+            userId: req.body.userId,
         }
     }).then((records) => {
         res.status(200).send({success: true, message: records});
