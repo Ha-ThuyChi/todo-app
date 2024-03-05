@@ -12,6 +12,7 @@ const userRouter = require("./routes/user.route")
 const userData = require("./data/user.data");
 const listData = require("./data/list.data");
 
+
 app.use(express.json());
 
 // Association
@@ -61,7 +62,7 @@ async function syncModel() {
     console.log('List model synchronized successfully.');
     await Task.sync({alert: true});
     console.log('Task model synchronized successfully.');
-    
+    // Initialize data
     userData.initial(User);
     listData.initial(List);
   } catch (error) {
@@ -72,7 +73,6 @@ syncModel();
 
 app.use(bodyParser.json());
 app.use(cors());
-
 
 app.use("/api/list", listRouter);
 app.use("/api/user", userRouter)
