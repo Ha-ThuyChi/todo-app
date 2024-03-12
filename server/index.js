@@ -6,12 +6,12 @@ const db = require("./models");
 const List = db.list;
 const Task = db.task;
 const User = db.user;
-const mysql = require("mysql2")
 const listRouter = require("./routes/list.route");
-const userRouter = require("./routes/user.route")
+const userRouter = require("./routes/user.route");
+const taskRouter = require("./routes/task.route");
 const userData = require("./data/user.data");
 const listData = require("./data/list.data");
-
+const taskData = require("./data/task.data");
 
 app.use(express.json());
 
@@ -52,6 +52,7 @@ Task.belongsTo(User, {
     allowNull: true,
   }
 })
+
 // connect to database
 async function syncModel() {
   try {
@@ -65,17 +66,23 @@ async function syncModel() {
     // Initialize data
     userData.initial(User);
     listData.initial(List);
+    taskData.initial(Task);
   } catch (error) {
     console.error('Error synchronizing models:', error);
   }
 }
 syncModel();
 
+//middleware 
 app.use(bodyParser.json());
 app.use(cors());
 
+//routes
 app.use("/api/list", listRouter);
-app.use("/api/user", userRouter)
+app.use("/api/user", userRouter);
+app.use("/api/task", taskRouter);
+
+//connect
 app.listen(2222, () => {
   console.log("connected to server!")
 })

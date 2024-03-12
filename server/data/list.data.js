@@ -15,5 +15,10 @@ module.exports = {
             type: "Journal",
             userId: 4,
         });
+        List.create({
+            name: "Journal",
+            type: "Journal",
+            userId: 3,
+        });
     }
 }

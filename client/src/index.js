@@ -6,6 +6,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { Homepage } from './pages/Homepage';
 import { SignUp } from './pages/SignUp';
 import { SignIn } from './pages/SignIn';
+import { ViewTask } from './pages/ViewTasks';
 
 
 const router = new createBrowserRouter([
@@ -20,6 +21,10 @@ const router = new createBrowserRouter([
   {
     path: "/sign-in",
     element: <SignIn/>
+  },
+  {
+    path: "/view-task/:listId",
+    element: <ViewTask/>
   }
 ])
 const root = ReactDOM.createRoot(document.getElementById('root'));

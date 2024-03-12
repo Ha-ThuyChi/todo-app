@@ -43,7 +43,7 @@ exports.createUser = (req, res) => {
     })
 }
 
-exports.getUser = (req, res) => {
+exports.getUserByEmail = (req, res) => {
     const password = req.body.password;
     User.findOne({
         where: {
@@ -66,6 +66,18 @@ exports.getUser = (req, res) => {
         } else {
             res.status(400).send({success: false, message: "Invalid email."});
         }
+    }).catch(error => {
+        res.status(500).send({success: false, message: error.message});
+    })
+};
+
+exports.getUserById = (req, res) => {
+    User.findOne({
+        where: {
+            id: req.params.userId,
+        }
+    }).then((data) => {
+        res.status(200).send({success: true, message: data})
     }).catch(error => {
         res.status(500).send({success: false, message: error.message});
     })

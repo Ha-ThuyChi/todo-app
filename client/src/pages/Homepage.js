@@ -37,11 +37,11 @@ export function Homepage() {
         <>
             <NavBar/>
             <h1>Homepage</h1>
+                <h2>Your lists</h2>
                 {lists != null && Object.keys(lists).length > 0 ? (
                     <ul>
-                        {Object.entries(lists).map(([key, value]) => {
-                            return (<li>{key}: {value}</li>)
-                        })}
+                        <li>Name of list: {lists["name"]}</li>
+                        <li><Link to={`/view-task/${lists["id"]}`}>View tasks in list</Link></li>
                     </ul>
                 ) : (
                     <>

@@ -16,7 +16,7 @@ module.exports = (sequelize, Sequelize) => {
             allowNull: false,
         }, 
         priorityLevel: {
-            type: Sequelize.ENUM("low", "medium", "high"),
+            type: Sequelize.ENUM("Low", "Medium", "High"),
             allowNull: true,
         },
 
