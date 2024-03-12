@@ -42,8 +42,8 @@ exports.createUser = (req, res) => {
         console.error("error:", error.message);
     })
 }
+
 exports.getUser = (req, res) => {
-    
     const password = req.body.password;
     User.findOne({
         where: {
@@ -57,8 +57,8 @@ exports.getUser = (req, res) => {
                     return;
                 }
                 if (result) {
-                    const token = jwt.sign({data}, process.env.JWT_SECRET);
-                    res.status(200).send({success: true, message: {assToken: token}});
+                    const token = jwt.sign({data}, process.env.JWT_SECRET, {expiresIn: '1h'});
+                    res.status(200).send({success: true, message: {accessToken: token, data: data.id}});
                 } else {
                     res.status(400).send({success: false, message: "Invalid password."});
                 }

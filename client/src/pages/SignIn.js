@@ -28,6 +28,8 @@ export function SignIn() {
         });
         console.log(response)
         if (response.success) {
+            localStorage.setItem("token", response.message.accessToken);
+            localStorage.setItem("userId", response.message.data);
             alert("Sign in successfully!");
             navigate("/")
         } else {

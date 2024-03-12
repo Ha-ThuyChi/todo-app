@@ -13,7 +13,7 @@ module.exports = {
         List.create({
             name: "Journal",
             type: "Journal",
-            userId: 3,
+            userId: 4,
         });
     }
 }
