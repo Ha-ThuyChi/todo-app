@@ -4,7 +4,7 @@ module.exports = {
             name: "Update Journal everyday",
             dueDate: "2024-11-11",
             isComplete: true,
-            listId: 1,
+            listId: 2,
             priorityLevel: "High",
             assigneeId: null,
         });

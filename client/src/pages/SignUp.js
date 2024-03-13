@@ -24,7 +24,6 @@ export function SignUp() {
 
     async function handleSubmit(e) {
         e.preventDefault();
-        console.log("submit")
         const response = await createUser({
             email,
             name,

@@ -7,12 +7,19 @@ import { Homepage } from './pages/Homepage';
 import { SignUp } from './pages/SignUp';
 import { SignIn } from './pages/SignIn';
 import { ViewTask } from './pages/ViewTasks';
+import { CreateList } from './pages/CreateList';
 
 
 const router = new createBrowserRouter([
   {
     path:"/",
-    element: <Homepage/>
+    element: <Homepage/>,
+    children: [
+      {
+        path: ":create-list",
+        element: <CreateList/>,
+      }
+    ]
   },
   {
     path: "/sign-up",
