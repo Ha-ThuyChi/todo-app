@@ -8,9 +8,9 @@ const authenticateToken = (req, res, next) => {
     }
     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
       if (err) {
-        if (err.name === "JsonWebTokenError") {
-          return res.status(403).send("Invalid token.");
-        };
+        // if (err.name === "JsonWebTokenError") {
+        //   return res.status(403).send("Invalid token.");
+        // };
         if (err.name === "TokenExpiredError") {
           res.status(401).send("Token expired.")
         }

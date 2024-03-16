@@ -1,7 +1,7 @@
-import { useParams } from "react-router-dom";
+import { Link, Outlet, useParams } from "react-router-dom";
 import { NavBar } from "../components/NavBar";
 import { useEffect, useState } from "react";
-import config, { serverLink } from "../config";
+import config from "../config";
 
 async function fetchTasks(listId, setTasks, token) {
     try {
@@ -25,10 +25,11 @@ async function fetchTasks(listId, setTasks, token) {
     }
 };
 
+
 export function ViewTask() {
     const listId = useParams().listId;
     const token = localStorage.getItem("token");
-    const [tasks, setTasks] = useState("");
+    const [tasks, setTasks] = useState(""); 
     
     useEffect(() => {
         fetchTasks(listId, setTasks, token);
@@ -40,12 +41,18 @@ export function ViewTask() {
             <h1>Tasks of list </h1>
             {tasks != null && tasks.length > 0 ? (
                 tasks.map((task) => {
-                    console.log(task["priorityLevel"])
                     return (
                         <ul>
                             <li>Name: {task["name"]}</li>
                             <li>Priority Level: <span class={task["priorityLevel"]}>{task["priorityLevel"]}</span></li>
-                            <li>Assignee: {task["user"]["name"]}</li>
+                            {task["user"] != null ? (
+                                <li>Assignee: {task["user"]["name"]}</li>
+                            ) : (
+                                <div>
+                                    <li>Assignee: <Link to={`assign-task/${task["id"]}`}>Assign Task</Link></li>
+                                    <Outlet/>
+                                </div>
+                            )}
                             <li>Due date: {task["dueDate"].split("T")[0]}</li>
                             <li>Status: {task["isComplete"] ? "Compeleted" : "Incompleted"}</li>
                         </ul>

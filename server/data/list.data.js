@@ -16,9 +16,9 @@ module.exports = {
             userId: 4,
         });
         List.create({
-            name: "Journal",
+            name: "Fix House",
             type: "Journal",
             userId: 3,
         });
     }
-}
+};

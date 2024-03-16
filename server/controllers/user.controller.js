@@ -12,7 +12,7 @@ async function hashPassword(password) {
     } catch (error) {
         console.error("Error while hasing password: ", error);
     }
-}
+};
 exports.createUser = (req, res) => {
     User.findOne({
         where: {
@@ -38,10 +38,10 @@ exports.createUser = (req, res) => {
             })
             
         }
-    }).catch((error) => {
-        console.error("error:", error.message);
-    })
-}
+    }).catch ((error) => {
+        res.status(500).send({success: false, message: error.message})
+    });
+};
 
 exports.getUserByEmail = (req, res) => {
     const password = req.body.password;

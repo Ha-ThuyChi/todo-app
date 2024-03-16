@@ -8,8 +8,8 @@ exports.viewList = (req, res) => {
         }
     }).then((records) => {
         res.status(200).send({success: true, message: records});
-    }).catch((error) => {
-        res.status(400).send({success: false, message: error.message})
+    }).catch ((error) => {
+        res.status(500).send({success: false, message: error.message})
     });
 };
 
@@ -19,7 +19,7 @@ exports.createList = (req, res) => {
         userId: req.body.userId
     }).then(() => {
         res.status(200).send({success: true, message: "List is created."})
-    }).catch((error) => {
-        res.status(400).send({success: false, message: error.message})
-    })
+    }).catch ((error) => {
+        res.status(500).send({success: false, message: error.message})
+    });
 }

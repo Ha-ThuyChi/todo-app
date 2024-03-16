@@ -4,7 +4,7 @@ module.exports = {
             name: "Update Journal everyday",
             dueDate: "2024-11-11",
             isComplete: true,
-            listId: 2,
+            listId: 1,
             priorityLevel: "High",
             assigneeId: null,
         });
@@ -12,7 +12,7 @@ module.exports = {
             name: "Update Journal monthly",
             dueDate: "2024-11-11",
             isComplete: false,
-            listId: 4,
+            listId: 1,
             priorityLevel: "Low",
             assigneeId: 1,
         });
@@ -22,7 +22,6 @@ module.exports = {
             isComplete: true,
             listId: 3,
             priorityLevel: "Medium",
-            assigneeId: 2,
         });
         Task.create({
             name: "Update Journal centurly",
@@ -30,7 +29,6 @@ module.exports = {
             isComplete: false,
             listId: 2,
             priorityLevel: "Low",
-            assigneeId: 3,
         });
         Task.create({
             name: "Delete Journal",
@@ -44,9 +42,22 @@ module.exports = {
             name: "View Journal",
             dueDate: "2024-11-11",
             isComplete: false,
-            listId: 2,
+            listId: 1,
             priorityLevel: "Medium",
-            assigneeId: 3,
+        });
+        Task.create({
+            name: "Paint the wall red =))",
+            dueDate: "2024-11-11",
+            isComplete: false,
+            listId: 4,
+            priorityLevel: "High",
+        });
+        Task.create({
+            name: "Buy some stones for garden",
+            dueDate: "2024-11-11",
+            isComplete: false,
+            listId: 4,
+            priorityLevel: "Low",
         });
     }
 }

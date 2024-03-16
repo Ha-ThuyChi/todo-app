@@ -8,6 +8,7 @@ import { SignUp } from './pages/SignUp';
 import { SignIn } from './pages/SignIn';
 import { ViewTask } from './pages/ViewTasks';
 import { CreateList } from './pages/CreateList';
+import { AssignTask } from './pages/AssignTask';
 
 
 const router = new createBrowserRouter([
@@ -31,7 +32,13 @@ const router = new createBrowserRouter([
   },
   {
     path: "/view-task/:listId",
-    element: <ViewTask/>
+    element: <ViewTask/>,
+    children: [
+      {
+        path: ":assign-task/:taskId",
+        element: <AssignTask/>,
+      }
+    ]
   }
 ])
 const root = ReactDOM.createRoot(document.getElementById('root'));

@@ -6,5 +6,7 @@ const authenticateToken = require("./authenticate.route");
 router.use(authenticateToken);
 
 router.get("/view/:listId", controller.viewTask);
+router.post("/assign-task", controller.assignTask);
+
 
 module.exports = router;
