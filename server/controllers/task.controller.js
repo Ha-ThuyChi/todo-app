@@ -52,4 +52,21 @@ exports.assignTask = (req, res) => {
     }).catch ((error) => {
         res.status(500).send({success: false, message: error.message});
     });
-}
+};
+
+exports.deleteAssignee = (req, res) => {
+    Task.update({assigneeId: null}, {
+        where: {
+            id: req.params.taskId
+        }
+    }).then((result) => {
+        if (result > 0) {
+            res.status(200).send({success: true, message: `Delete task successfully.`})
+        } else {
+            res.status(400).send({success: false, message: "Delete task unsucessfully."})
+        }
+    }).catch ((error) => {
+        res.status(500).send({success: false, message: error.message});
+    })
+};
+

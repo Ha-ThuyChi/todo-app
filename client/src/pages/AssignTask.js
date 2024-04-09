@@ -1,6 +1,6 @@
 import { useState } from "react";
 import config from "../config";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 async function assignTask(token, values) {
     return await fetch(config.serverLink + "/api/task/assign-task", {
@@ -17,11 +17,9 @@ async function assignTask(token, values) {
     });
 }
 
-export function AssignTask() {
+export function AssignTask(taskId) {
     const [email, setEmail] = useState("");
     const token = localStorage.getItem("token");
-    const taskId = useParams().taskId;
-    const navigate = useNavigate();
 
     async function handleSubmit (e) {
         e.preventDefault();
@@ -29,6 +27,10 @@ export function AssignTask() {
             email,
             taskId
         });
+        if (response.status === 401) {
+            localStorage.clear();
+            window.location.reload();
+        };
         if (response.success) {
             alert("Task is assigned successfully.");
             window.location.reload();

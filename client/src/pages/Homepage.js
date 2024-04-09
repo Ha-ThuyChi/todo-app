@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { NavBar } from "../components/NavBar";
 import config from "../config";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 
 
 async function fetchList(userId, token, setLists) {
@@ -12,9 +12,10 @@ async function fetchList(userId, token, setLists) {
                 "Authorization": `Bearer ${token}`
             }
         })
-        if (response.status == 401) {
+        if (response.status === 401) {
             localStorage.clear();
-        }
+            window.location.reload();
+        };
         if (!response.ok) {
             console.error("error:", response.status);
         }
@@ -28,12 +29,12 @@ async function fetchList(userId, token, setLists) {
 
 export function Homepage() {
     const userId = localStorage.getItem("userId");
-    const [token, setToken] = useState(localStorage.getItem("token"));
+    const token = localStorage.getItem("token");
     const [lists, setLists] = useState(null);
 
     useEffect(() => {
         fetchList(userId, token, setLists);
-    }, [token]);
+    }, [token, userId]);
     return (
         <>
             <NavBar/>

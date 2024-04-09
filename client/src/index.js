@@ -33,12 +33,6 @@ const router = new createBrowserRouter([
   {
     path: "/view-task/:listId",
     element: <ViewTask/>,
-    children: [
-      {
-        path: ":assign-task/:taskId",
-        element: <AssignTask/>,
-      }
-    ]
   }
 ])
 const root = ReactDOM.createRoot(document.getElementById('root'));

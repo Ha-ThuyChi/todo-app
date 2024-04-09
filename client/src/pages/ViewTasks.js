@@ -1,7 +1,8 @@
-import { Link, Outlet, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { NavBar } from "../components/NavBar";
 import { useEffect, useState } from "react";
 import config from "../config";
+import { AssignTask } from "./AssignTask";
 
 async function fetchTasks(listId, setTasks, token) {
     try {
@@ -12,8 +13,9 @@ async function fetchTasks(listId, setTasks, token) {
             }
         });
         if (response.status === 401) {
-            localStorage.removeItem("token")
-        }
+            localStorage.clear();
+            window.location.reload();
+        };
         if (!response.ok) {
             console.error("error:", response.status);
         }
@@ -25,16 +27,48 @@ async function fetchTasks(listId, setTasks, token) {
     }
 };
 
+async function deleteTask(taskId, token) {
+    return fetch(config.serverLink + `/api/task/delete-assignee/${taskId}`, {
+            method: "PUT",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        }).then((response) => {
+            return response.json();
+        }).catch((error) => {
+            alert(error.message);
+        });
+        
+}
 
 export function ViewTask() {
     const listId = useParams().listId;
     const token = localStorage.getItem("token");
     const [tasks, setTasks] = useState(""); 
-    
-    useEffect(() => {
+    const [showAssignTask, setShowAssignTask] = useState(false);
+    const [taskId, setTaskId] = useState(null);
+
+
+    useEffect(() => { 
         fetchTasks(listId, setTasks, token);
     }, []);
-
+    async function handleDelete(e, taskId) {
+        e.preventDefault();
+        const response = await deleteTask(taskId, token);
+        if (response.status === 401) {
+            localStorage.clear();
+            window.location.reload();
+        } else if (response.status === 400) {
+            console.log(response.message);
+        } else {
+            alert("Remove assignee successfully.");
+            window.location.reload();
+        };
+    }
+    function triggerAssignTask(e, taskId) {
+        setShowAssignTask(!showAssignTask);
+        setTaskId(taskId);
+    }
     return (
         <div>
             <NavBar/>
@@ -46,11 +80,13 @@ export function ViewTask() {
                             <li>Name: {task["name"]}</li>
                             <li>Priority Level: <span class={task["priorityLevel"]}>{task["priorityLevel"]}</span></li>
                             {task["user"] != null ? (
-                                <li>Assignee: {task["user"]["name"]}</li>
+                                <div>
+                                    <li>Assignee: {task["user"]["name"]} <button onClick={e => handleDelete(e, task["id"])}>Remove</button></li>
+                                </div>
                             ) : (
                                 <div>
-                                    <li>Assignee: <Link to={`assign-task/${task["id"]}`}>Assign Task</Link></li>
-                                    <Outlet/>
+                                    <li>Assignee: <button onClick={e => triggerAssignTask(e, task["id"])}>Assign Task</button></li>
+                                    {showAssignTask && taskId === task["id"] && <AssignTask taskId = {task["id"]} />}
                                 </div>
                             )}
                             <li>Due date: {task["dueDate"].split("T")[0]}</li>
