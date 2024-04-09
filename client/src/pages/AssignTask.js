@@ -17,7 +17,7 @@ async function assignTask(token, values) {
     });
 }
 
-export function AssignTask(taskId) {
+export function AssignTask({taskId}) {
     const [email, setEmail] = useState("");
     const token = localStorage.getItem("token");
 
