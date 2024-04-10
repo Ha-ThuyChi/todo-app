@@ -39,9 +39,9 @@ export function Homepage() {
         <>
             <NavBar/>
             <h1>Homepage</h1>
-                <h2>Your lists</h2>
                 {lists != null && Object.keys(lists).length > 0 ? (
                     <div>
+                        <h2>Your lists</h2>
                         {lists.map(list => {
                             return (
                                 <div>
@@ -58,7 +58,7 @@ export function Homepage() {
                     <>
                         {token === null ? (
                             <>
-                                <Link to={"/sign-in"}>Sign in</Link> or <Link to={"/sign-up"}>Sign up</Link>
+                                You need to <Link to={"/sign-in"}>Sign in</Link> or <Link to={"/sign-up"}>Sign up</Link> to use this website.
                             </>
                         ) : (
                             <p>No list to display.</p>

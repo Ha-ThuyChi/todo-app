@@ -1,3 +1,5 @@
+const { where } = require("sequelize");
+
 const Task = require("../models").task;
 const User = require("../models").user;
 
@@ -70,3 +72,47 @@ exports.deleteAssignee = (req, res) => {
     })
 };
 
+exports.createTask = (req, res) => {
+    const email = req.body.assigneeEmail;
+    if (email) {
+        User.findOne({
+            where: {
+                email: email
+            },
+            attributes: ["id"]
+        }).then((data) => {
+            if (data) {
+                const assigneeId = data.id;
+                Task.create({
+                    name: req.body.name,
+                    dueDate: req.body.dueDate,
+                    isComplete: false,
+                    priorityLevel: req.body.priorityLevel,
+                    assigneeId: assigneeId,
+                    listId: req.body.listId
+                }).then(() => {
+                    res.status(200).send({success: true, message: "Task is created."})
+                }).catch(error => {
+                    res.status(500).send({success: false, message: error.message})
+                }) 
+            } else {
+                res.status(400).send({success: false, message: "Invalid email."});
+            }   
+        }).catch((error) => {
+            res.status(500).send({success: false, message: error.message});
+        })
+    } else {
+        Task.create({
+            name: req.body.name,
+            dueDate: req.body.dueDate,
+            isComplete: false,
+            priorityLevel: req.body.priorityLevel,
+            assigneeId: null,
+            listId: req.body.listId
+        }).then(() => {
+            res.status(200).send({success: true, message: "Task is created."})
+        }).catch(error => {
+            res.status(500).send({success: false, message: error.message})
+        }) 
+    }
+}

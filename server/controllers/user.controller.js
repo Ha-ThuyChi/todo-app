@@ -43,6 +43,17 @@ exports.createUser = (req, res) => {
     });
 };
 
+// exports.findUserByEmail = (req, res) => {
+//     User.findOne({
+//         where: {
+//             email: req.body.email, // check email
+//         }
+//     }).then((data) => {
+//         return data;
+//     }).catch(error => {
+//         console.log(error.message);
+//     })
+// }
 exports.getUserByEmail = (req, res) => {
     const password = req.body.password;
     User.findOne({
@@ -51,6 +62,7 @@ exports.getUserByEmail = (req, res) => {
         }
     }).then((data) => {
         if (data) {
+            // check password
             bcrypt.compare(password, data.password, function (err, result) {
                 if (err) {
                     console.error('Error comparing passwords:', err);

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import config from "../config";
-import { useParams } from "react-router-dom";
 
 async function assignTask(token, values) {
     return await fetch(config.serverLink + "/api/task/assign-task", {

@@ -3,6 +3,7 @@ import { NavBar } from "../components/NavBar";
 import { useEffect, useState } from "react";
 import config from "../config";
 import { AssignTask } from "./AssignTask";
+import { CreateTask } from "./CreateTask";
 
 async function fetchTasks(listId, setTasks, token) {
     try {
@@ -46,6 +47,7 @@ export function ViewTask() {
     const token = localStorage.getItem("token");
     const [tasks, setTasks] = useState(""); 
     const [showAssignTask, setShowAssignTask] = useState(false);
+    const [showCreateTask, setShowCreateTask] = useState(false);
     const [taskId, setTaskId] = useState(null);
 
 
@@ -68,6 +70,9 @@ export function ViewTask() {
     function triggerAssignTask(e, taskId) {
         setShowAssignTask(!showAssignTask);
         setTaskId(taskId);
+    }
+    function triggerCreateTask(e) {
+        setShowCreateTask(!showCreateTask);
     }
     return (
         <div>
@@ -97,6 +102,8 @@ export function ViewTask() {
             ) : (
                 <p>No task to display.</p>
             )}
+            <button onClick={triggerCreateTask}>Create new task</button>
+            {showCreateTask && <CreateTask/>}
         </div>
     )
 }

@@ -30,7 +30,6 @@ export function SignUp() {
             dob,
             password
         });
-        console.log(response)
         if (response.success) {
             alert("Your account is created successfully!");
             navigate("/sign-in");
@@ -39,7 +38,6 @@ export function SignUp() {
         }
     }
 
-    console.log(email)
     return(
         <div>
             <NavBar/>

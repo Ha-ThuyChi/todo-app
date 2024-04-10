@@ -8,5 +8,7 @@ router.use(authenticateToken);
 router.get("/view/:listId", controller.viewTask);
 router.post("/assign-task", controller.assignTask);
 router.put("/delete-assignee/:taskId", controller.deleteAssignee);
+router.post("/create-task", controller.createTask);
+
 
 module.exports = router;
