@@ -11,21 +11,21 @@ exports.viewTask = (req, res) => {
         include: {
             model: User,
             attributes: ['name'],
-            foreignKey: 'userId'
+            foreignKey: 'userId',
         }
     }).then((records) => {
         res.status(200).send({success: true, message: records});
     }).catch ((error) => {
-        res.status(500).send({success: false, message: error.message})
+        res.status(500).send({success: false, message: error.message});
     });
 };
 
 exports.assignTask = (req, res) => {
     User.findOne({
         where: {
-            email: req.body.email
+            email: req.body.email,
         },
-        attributes: ["id"]
+        attributes: ["id"],
     }).then((data) => {
         if (data) {
             const assigneeId = data.id;
@@ -41,12 +41,12 @@ exports.assignTask = (req, res) => {
                 }
             ).then((result) => {
                 if (result > 0) {
-                    res.status(200).send({success: true, message: `Assign task to user ${assigneeId} successfully.`})
+                    res.status(200).send({success: true, message: `Assign task to user ${assigneeId} successfully.`});
                 } else {
-                    res.status(400).send({success: false, message: "The task is already updated."})
+                    res.status(400).send({success: false, message: "The task is already updated."});
                 }
             }).catch ((error) => {
-                res.status(500).send({success: false, message: error.message})
+                res.status(500).send({success: false, message: error.message});
             });
         } else {
             res.status(400).send({success: false, message: "Invalid email."});
@@ -59,17 +59,17 @@ exports.assignTask = (req, res) => {
 exports.deleteAssignee = (req, res) => {
     Task.update({assigneeId: null}, {
         where: {
-            id: req.params.taskId
+            id: req.params.taskId,
         }
     }).then((result) => {
         if (result > 0) {
-            res.status(200).send({success: true, message: `Delete task successfully.`})
+            res.status(200).send({success: true, message: `Delete task successfully.`});
         } else {
-            res.status(400).send({success: false, message: "Delete task unsucessfully."})
+            res.status(400).send({success: false, message: "Delete task unsucessfully."});
         }
     }).catch ((error) => {
         res.status(500).send({success: false, message: error.message});
-    })
+    });
 };
 
 exports.createTask = (req, res) => {
@@ -79,7 +79,7 @@ exports.createTask = (req, res) => {
             where: {
                 email: email
             },
-            attributes: ["id"]
+            attributes: ["id"],
         }).then((data) => {
             if (data) {
                 const assigneeId = data.id;
@@ -89,18 +89,18 @@ exports.createTask = (req, res) => {
                     isComplete: false,
                     priorityLevel: req.body.priorityLevel,
                     assigneeId: assigneeId,
-                    listId: req.body.listId
+                    listId: req.body.listId,
                 }).then(() => {
-                    res.status(200).send({success: true, message: "Task is created."})
+                    res.status(200).send({success: true, message: "Task is created."});
                 }).catch(error => {
-                    res.status(500).send({success: false, message: error.message})
+                    res.status(500).send({success: false, message: error.message});
                 }) 
             } else {
                 res.status(400).send({success: false, message: "Invalid email."});
-            }   
+            }; 
         }).catch((error) => {
             res.status(500).send({success: false, message: error.message});
-        })
+        });
     } else {
         Task.create({
             name: req.body.name,
@@ -108,11 +108,43 @@ exports.createTask = (req, res) => {
             isComplete: false,
             priorityLevel: req.body.priorityLevel,
             assigneeId: null,
-            listId: req.body.listId
+            listId: req.body.listId,
         }).then(() => {
-            res.status(200).send({success: true, message: "Task is created."})
+            res.status(200).send({success: true, message: "Task is created."});
         }).catch(error => {
-            res.status(500).send({success: false, message: error.message})
+            res.status(500).send({success: false, message: error.message});
         }) 
-    }
-}
+    };
+};
+
+exports.updateTaskStatus = (req, res) => {
+    Task.update({isComplete : req.body.status}, {
+        where: {
+            id: req.body.taskId,
+        }
+    }).then((result) => {
+        if (result > 0) {
+            res.status(200).send({success: true, message: `Task status is updated successfully.`})
+        } else {
+            res.status(400).send({success: false, message: "Update task status unsucessfully."})
+        }
+    }).catch((error) => {
+        res.status(500).send({success: false, message: error.message});
+    });
+};
+ 
+exports.updateTaskDueDate = (req, res) => {
+    Task.update({dueDate: req.body.dueDate}, {
+        where: {
+            id: req.body.dueDate,
+        }
+    }).then((result) => {
+        if (result > 0) {
+            res.status(200).send({success: true, message: `Task due date is updated successfully.`});
+        } else {
+            res.status(400).send({success: false, message: "Update task due date unsucessfully."});
+        }
+    }).catch((error) => {
+        res.status(500).send({success: false, message: error.message});
+    });
+};

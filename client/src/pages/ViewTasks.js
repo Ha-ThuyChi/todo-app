@@ -5,6 +5,7 @@ import config from "../config";
 import { AssignTask } from "./AssignTask";
 import { CreateTask } from "./CreateTask";
 
+//fetch tasks
 async function fetchTasks(listId, setTasks, token) {
     try {
         const response = await fetch(config.serverLink + `/api/task/view/${listId}`, {
@@ -27,7 +28,7 @@ async function fetchTasks(listId, setTasks, token) {
         console.error("error: ", error.message);
     }
 };
-
+//delete task
 async function deleteTask(taskId, token) {
     return fetch(config.serverLink + `/api/task/delete-assignee/${taskId}`, {
             method: "PUT",
@@ -37,10 +38,25 @@ async function deleteTask(taskId, token) {
         }).then((response) => {
             return response.json();
         }).catch((error) => {
-            alert(error.message);
-        });
-        
-}
+            console.error(error.message);
+        });      
+};
+//change status of the task
+async function changeStatus(token, values) {
+    return fetch(config.serverLink + `/api/task/update-task-status`, {
+            method: "PUT",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                'Content-Type':'application/json'
+            }, 
+            body: JSON.stringify(values)
+        }).then((response) => {
+            return response.json();
+        }).catch((error) => {
+            console.error(error.message);
+        });      
+};
+
 
 export function ViewTask() {
     const listId = useParams().listId;
@@ -49,7 +65,6 @@ export function ViewTask() {
     const [showAssignTask, setShowAssignTask] = useState(false);
     const [showCreateTask, setShowCreateTask] = useState(false);
     const [taskId, setTaskId] = useState(null);
-
 
     useEffect(() => { 
         fetchTasks(listId, setTasks, token);
@@ -67,17 +82,33 @@ export function ViewTask() {
             window.location.reload();
         };
     }
-    function triggerAssignTask(e, taskId) {
+    function triggerAssignTask( taskId) {
         setShowAssignTask(!showAssignTask);
         setTaskId(taskId);
     }
-    function triggerCreateTask(e) {
+    function triggerCreateTask() {
         setShowCreateTask(!showCreateTask);
     }
+
+    async function handleChangeStatus(taskId, status) {
+        const response = await changeStatus(token, {
+            taskId,
+            status
+        });
+        if (response.status === 401) {
+            localStorage.clear();
+            window.location.reload();
+        } else if (response.status === 400) {
+            console.log(response.message);
+        } else {
+            alert(response.message);
+            window.location.reload();
+        };
+    };
     return (
         <div>
             <NavBar/>
-            <h1>Tasks of list </h1>
+            <h1>Tasks</h1>
             {tasks != null && tasks.length > 0 ? (
                 tasks.map((task) => {
                     return (
@@ -86,16 +117,16 @@ export function ViewTask() {
                             <li>Priority Level: <span class={task["priorityLevel"]}>{task["priorityLevel"]}</span></li>
                             {task["user"] != null ? (
                                 <div>
-                                    <li>Assignee: {task["user"]["name"]} <button onClick={e => handleDelete(e, task["id"])}>Remove</button></li>
+                                    <li>Assignee: {task["user"]["name"]} <button onClick={e => handleDelete(task["id"])}>Remove</button></li>
                                 </div>
                             ) : (
                                 <div>
-                                    <li>Assignee: <button onClick={e => triggerAssignTask(e, task["id"])}>Assign Task</button></li>
+                                    <li>Assignee: <button onClick={e => triggerAssignTask(task["id"])}>Assign Task</button></li>
                                     {showAssignTask && taskId === task["id"] && <AssignTask taskId = {task["id"]} />}
                                 </div>
                             )}
                             <li>Due date: {task["dueDate"].split("T")[0]}</li>
-                            <li>Status: {task["isComplete"] ? "Compeleted" : "Incompleted"}</li>
+                            <li>Status: {task["isComplete"] ? "Compeleted" : "Incompleted"} <button onClick={e => handleChangeStatus(task["id"], !task["isComplete"])}>Update status</button></li> 
                         </ul>
                     )
                 })
