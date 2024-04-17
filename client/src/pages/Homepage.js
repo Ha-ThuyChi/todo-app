@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { NavBar } from "../components/NavBar";
 import config from "../config";
 import { Link, Outlet } from "react-router-dom";
+import { CreateList } from "./CreateList";
 
 
 async function fetchList(userId, token, setLists) {
@@ -27,14 +28,46 @@ async function fetchList(userId, token, setLists) {
     }
 };
 
+async function deleteList(token, listId) {
+    return await fetch(config.serverLink + "/api/list/delete-list/" + listId, {
+        method: "DELETE",
+        headers: {
+            "Authorization": `Bearer ${token}`
+        }
+    }).then((response) => {
+        return response.json();
+    }).catch((error) => {
+        alert(error.message);
+    });
+}
+
 export function Homepage() {
     const userId = localStorage.getItem("userId");
     const token = localStorage.getItem("token");
     const [lists, setLists] = useState(null);
+    const [showCreateList, setShowCreatList] = useState(false);
 
     useEffect(() => {
         fetchList(userId, token, setLists);
-    }, [token, userId]);
+    }, []);
+
+    async function handleDeleteList(listId) {
+        const response = await deleteList(token, listId);
+        if (response.success) {
+            alert(response.message)
+            window.location.reload();
+        };
+        if (response.status === 401) {
+            localStorage.clear();
+            window.location.reload();
+        } else if (response.status === 400) {
+            console.log(response.message);
+        };
+    };
+    function handleShowCreateList() {
+        setShowCreatList(!showCreateList);
+    }
+
     return (
         <>
             <NavBar/>
@@ -46,13 +79,14 @@ export function Homepage() {
                             return (
                                 <div>
                                     <ul>
-                                        <li>Name of list: {list["name"]}<br/><Link to={`/view-task/${list["id"]}`}>View tasks in list</Link></li>
+                                        <li>Name of list: {list["name"]} <button onClick={e => handleDeleteList(list["id"])}>Delete</button><br/>
+                                        <Link to={`/view-task/${list["id"]}`}>View tasks in list</Link></li>
                                     </ul>
                                 </div>
                             )
                         })}
-                        <Link to={"create-list"}>Create new list</Link>
-                        <Outlet/>
+                        <button onClick={handleShowCreateList}>Create new list</button>
+                        {showCreateList && <CreateList/>}
                     </div>
                 ) : (
                     <>
@@ -61,7 +95,11 @@ export function Homepage() {
                                 You need to <Link to={"/sign-in"}>Sign in</Link> or <Link to={"/sign-up"}>Sign up</Link> to use this website.
                             </>
                         ) : (
-                            <p>No list to display.</p>
+                            <div>
+                                <p>No list to display.</p>
+                                <button onClick={handleShowCreateList}>Create new list</button>
+                                {showCreateList && <CreateList/>}
+                            </div>
                         )}
                     </>
                 )}

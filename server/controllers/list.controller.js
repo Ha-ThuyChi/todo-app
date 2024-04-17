@@ -23,3 +23,37 @@ exports.createList = (req, res) => {
         res.status(500).send({success: false, message: error.message})
     });
 }
+
+exports.editListName = (req, res) => {
+    List.update({
+        name: req.body.name,
+    }, {
+        where: {
+            id: req.body.listId,
+        }
+    }).then((result) => {
+        if (result > 0) {
+            res.status(200).send({success: true, message: `List name is updated successfully.`});
+        } else {
+            res.status(400).send({success: false, message: "Update list name unsucessfully."});
+        }
+    }).catch((error) => {
+        res.status(500).send({success: false, message: error.message});
+    });
+};
+
+exports.deleteList = (req, res) => {
+    List.destroy({
+        where: {
+            id: req.params.listId
+        }
+    }).then((result) => {
+        if (result > 0) {
+            res.status(200).send({success: true, message: `List is delete successfully.`});
+        } else {
+            res.status(400).send({success: false, message: "Delete list unsucessfully."});
+        };
+    }).catch((error) => {
+        res.status(500).send({success: false, message: error.message});
+    });
+}
