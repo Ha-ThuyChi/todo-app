@@ -3,7 +3,10 @@ const express = require("express");
 const router = express.Router();
 const authenticateToken = require("./authenticate.route");
 
-router.get("/view/:userId", authenticateToken, controller.viewList);
-router.post("/create-list", authenticateToken, controller.createList);
+router.use(authenticateToken);
+
+router.get("/view/:userId", controller.viewList);
+router.post("/create-list", controller.createList);
+router.delete("/delete-list/:listId", controller.deleteList);
 
 module.exports = router;
