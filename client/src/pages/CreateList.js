@@ -35,16 +35,22 @@ export function CreateList() {
             userId
         }, token);
         console.log(response)
+        if (response.status === 401) {
+            localStorage.clear();
+            window.location.reload();
+        } else if (response.status === 400) {
+            console.log(response.message);
+        };
         if (response.success) {
             alert("Your list is created successfully!");
-            navigate("/");
+            window.location.reload();
         } else {
             alert(response.message)
         }
     }
     return(
         <div>
-            <h1>Create List</h1>
+            <h2>Create List</h2>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="name">Full name: </label>
                 <input type="text" name="name" value={name} placeholder="Enter the name" onChange={e => setName(e.target.value)}></input><br/>

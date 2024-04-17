@@ -34,6 +34,12 @@ export function CreateTask() {
             assigneeEmail,
             listId
         });
+        if (response.status === 401) {
+            localStorage.clear();
+            window.location.reload();
+        } else if (response.status === 400) {
+            console.log(response.message);
+        };
         if (response.success) {
             alert("Task is created.");
             window.location.reload();

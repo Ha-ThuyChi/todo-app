@@ -8,14 +8,14 @@ export function NavBar() {
         const loggined = localStorage.getItem("token");
         if (loggined) {
             const foundToken = loggined;
-            setToken(foundToken)
+            setToken(foundToken);
         }
     }, []);
 
     function handleSignout() {
         setToken("")
         localStorage.clear();
-        navigate("/")
+        window.location.reload();
     }
     return(
         <div>

@@ -33,9 +33,14 @@ export function SignUp() {
         if (response.success) {
             alert("Your account is created successfully!");
             navigate("/sign-in");
-        } else {
-            alert(response.message)
-        }
+        };
+        
+        if (response.status === 401) {
+            localStorage.clear();
+            window.location.reload();
+        } else if (response.status === 400) {
+            console.log(response.message);
+        };
     }
 
     return(
