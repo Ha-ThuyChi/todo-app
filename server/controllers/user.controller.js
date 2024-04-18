@@ -93,4 +93,25 @@ exports.getUserById = (req, res) => {
     }).catch(error => {
         res.status(500).send({success: false, message: error.message});
     })
+};
+
+exports.editUser = (req, res) => {
+    User.update({
+        name: req.body.name,
+        dob: req.body.dob,
+        email: req.body.email
+    }, {
+        where: {
+            id: req.body.userId
+        }
+    }).then((result) => {
+        if (result > 0) {
+            res.status(200).send({success: true, message: "User is updated successfully."})
+        } else {
+            res.status(400).send({success: false, message: "Update user unsuccessfully."})
+        }
+    }).catch(error => {
+        res.status(500).send({success: false, message: error.message})
+    })
+    
 }
