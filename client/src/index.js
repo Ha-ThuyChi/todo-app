@@ -9,6 +9,8 @@ import { SignIn } from './pages/SignIn';
 import { ViewTask } from './pages/ViewTasks';
 import { CreateList } from './pages/CreateList';
 import { AssignTask } from './pages/AssignTask';
+import { ViewUserInfo } from './pages/ViewUserInfo';
+import { EditUseInfo } from './pages/EditUserInfo';
 
 
 const router = new createBrowserRouter([
@@ -33,6 +35,14 @@ const router = new createBrowserRouter([
   {
     path: "/view-task/:listId",
     element: <ViewTask/>,
+  },
+  {
+    path: "/view-my-profile",
+    element: <ViewUserInfo/>,
+  }, 
+  {
+    path: "/edit-my-profile",
+    element: <EditUseInfo/>,
   }
 ])
 const root = ReactDOM.createRoot(document.getElementById('root'));

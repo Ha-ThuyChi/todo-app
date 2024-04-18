@@ -48,17 +48,25 @@ export function SignUp() {
             <NavBar/>
             <h1>Sign Up</h1>
             <form onSubmit={handleSubmit}>
-                <label htmlFor="name">Full name:</label>
-                <input type="text" name="name" value={name} placeholder="Enter the name" onChange={e => setName(e.target.value)}></input><br/>
-                <label htmlFor="email">Email:</label>
-                <input type="email" name="email" value={email} placeholder="Enter the email" onChange={e => setEmail(e.target.value)}></input><br/>
-                <label htmlFor="password">Password:</label>
-                <input type="password" name="password" value={password} placeholder="Enter the password" onChange={e => setPassword(e.target.value)}></input><br/>
-                <label htmlFor="dob">Date of birth:</label>
-                <input type="date" name="dob" value={dob} onChange={e => setDob(e.target.value)}></input><br/>
+                <div className="form-group">
+                    <label htmlFor="name">Full name:</label><br/>
+                    <input type="text" name="name" value={name} placeholder="Enter the name" onChange={e => setName(e.target.value)}></input><br/>
+                </div>
+                <div className="form-group">
+                    <label htmlFor="email">Email:</label><br/>
+                    <input type="email" name="email" value={email} placeholder="Enter the email" onChange={e => setEmail(e.target.value)}></input><br/>
+                </div>
+                <div className="form-group">
+                    <label htmlFor="password">Password:</label><br/>
+                    <input type="password" name="password" value={password} placeholder="Enter the password" onChange={e => setPassword(e.target.value)}></input><br/>
+                </div>
+                <div className="form-group">
+                    <label htmlFor="dob">Date of birth:</label><br/>
+                    <input type="date" name="dob" value={dob} onChange={e => setDob(e.target.value)}></input><br/>
+                </div>
+                <Link to={"/sign-in"}>Have an account?</Link><br/>
                 <button type="submit">Submit</button>
             </form>
-                <Link to={"/sign-in"}>Have an account?</Link>
         </div>
     )
 }

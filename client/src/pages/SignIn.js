@@ -26,18 +26,16 @@ export function SignIn() {
             email,
             password
         });
-        console.log(response)
         if (response.success) {
             localStorage.setItem("token", response.message.accessToken);
             localStorage.setItem("userId", response.message.data);
             alert("Sign in successfully!");
             navigate("/")
         };
-        if (response.status === 401) {
-            localStorage.clear();
-            window.location.reload();
-        } else if (response.status === 400) {
-            console.log(response.message);
+        console.log(response.status)
+        if (response.success == false) {
+            alert(`${response.message}`);
+            console.log(typeof response.message);
         };
 
     }
@@ -46,14 +44,17 @@ export function SignIn() {
             <NavBar/>
             <h1>Sign In</h1>
             <form onSubmit={handleSubmit}>
-                <label htmlFor="email">Email:</label>
-                <input type="email" name="email" value={email} placeholder="Enter the email" onChange={e => setEmail(e.target.value)}></input><br/>
-                <label htmlFor="password">Password:</label>
-                <input type="password" name="password" value={password} placeholder="Enter the password" onChange={e => setPassword(e.target.value)}></input><br/>
+                <div className="form-group">
+                    <label htmlFor="email">Email:</label><br/>
+                    <input type="email" name="email" value={email} placeholder="Enter the email" onChange={e => setEmail(e.target.value)}></input><br/>
+                </div>
+                    <div className="form-group">
+                    <label htmlFor="password">Password:</label><br/>
+                    <input type="password" name="password" value={password} placeholder="Enter the password" onChange={e => setPassword(e.target.value)}></input><br/>
+                </div>
+                <Link to={"/sign-up"}>Don't have an account?</Link><br/>
                 <button type="submit">Submit</button>
             </form>
-            
-            <Link to={"/sign-up"}>Don't have an account?</Link>
         </div>
     )
 }

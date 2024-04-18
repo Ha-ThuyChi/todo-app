@@ -112,22 +112,25 @@ export function ViewTask() {
             {tasks != null && tasks.length > 0 ? (
                 tasks.map((task) => {
                     return (
-                        <ul>
-                            <li>Name: {task["name"]}</li>
-                            <li>Priority Level: <span class={task["priorityLevel"]}>{task["priorityLevel"]}</span></li>
-                            {task["user"] != null ? (
-                                <div>
-                                    <li>Assignee: {task["user"]["name"]} <button onClick={e => handleDelete(task["id"])}>Remove</button></li>
-                                </div>
-                            ) : (
-                                <div>
-                                    <li>Assignee: <button onClick={e => triggerAssignTask(task["id"])}>Assign Task</button></li>
-                                    {showAssignTask && taskId === task["id"] && <AssignTask taskId = {task["id"]} />}
-                                </div>
-                            )}
-                            <li>Due date: {task["dueDate"].split("T")[0]}</li>
-                            <li>Status: {task["isComplete"] ? "Compeleted" : "Incompleted"} <button onClick={e => handleChangeStatus(task["id"], !task["isComplete"])}>Update status</button></li> 
-                        </ul>
+                        <div>
+                            <ul>
+                                <li>Name: {task["name"]}</li>
+                                <li>Priority Level: <span class={task["priorityLevel"]}>{task["priorityLevel"]}</span></li>
+                                {task["user"] != null ? (
+                                    <div>
+                                        <li>Assignee: {task["user"]["name"]} <button onClick={e => handleDelete(task["id"])}>Remove</button></li>
+                                    </div>
+                                ) : (
+                                    <div>
+                                        <li>Assignee: <button onClick={e => triggerAssignTask(task["id"])}>Assign Task</button></li>
+                                        {showAssignTask && taskId === task["id"] && <AssignTask taskId = {task["id"]} />}
+                                    </div>
+                                )}
+                                <li>Due date: {task["dueDate"].split("T")[0]}</li>
+                                <li>Status: {task["isComplete"] ? "Compeleted" : "Incompleted"} <button onClick={e => handleChangeStatus(task["id"], !task["isComplete"])}>Update status</button></li> 
+                            </ul>
+                            <hr/>
+                        </div>
                     )
                 })
             ) : (

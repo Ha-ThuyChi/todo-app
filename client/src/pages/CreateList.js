@@ -34,7 +34,6 @@ export function CreateList() {
             name,
             userId
         }, token);
-        console.log(response)
         if (response.status === 401) {
             localStorage.clear();
             window.location.reload();
@@ -46,14 +45,14 @@ export function CreateList() {
             window.location.reload();
         } else {
             alert(response.message)
-        }
+        };
     }
     return(
         <div>
             <h2>Create List</h2>
             <form onSubmit={handleSubmit}>
-                <label htmlFor="name">Full name: </label>
-                <input type="text" name="name" value={name} placeholder="Enter the name" onChange={e => setName(e.target.value)}></input><br/>
+                <label htmlFor="name">Name of list: </label>
+                <input type="text" name="name" value={name} placeholder="Enter the name" onChange={e => setName(e.target.value)} required></input><br/>
                 <button type="submit">Submit</button>
             </form>
         </div>
